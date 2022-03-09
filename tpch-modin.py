@@ -57,3 +57,8 @@ if __name__ == "__main__":
     print(df.head())
     print(len(df))
     print(df.dtypes)
+
+    if engine == "Dask":
+        client.shutdown()
+    elif engine == "Ray":
+        ray.shutdown()
