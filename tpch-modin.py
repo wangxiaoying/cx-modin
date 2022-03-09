@@ -22,8 +22,7 @@ if __name__ == "__main__":
     engine = args["--engine"]
     enable_cx = args["--enable-cx"]
 
-    print(f"conn url: {conn}")
-    print(f"enable_cx: {enable_cx}")
+    print(f"partitions: {partitions}, engine: {engine} enable_cx: {enable_cx}, conn : {conn}")
 
     if engine == "Dask":
         from dask.distributed import Client, LocalCluster
