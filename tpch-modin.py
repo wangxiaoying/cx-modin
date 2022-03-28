@@ -22,17 +22,31 @@ if __name__ == "__main__":
     engine = args["--engine"]
     enable_cx = args["--enable-cx"]
 
-    print(f"partitions: {partitions}, engine: {engine} enable_cx: {enable_cx}, conn : {conn}")
+    if enable_cx:
+        from modin.config import ReadSqlEngine
+
+        print("set engine to connectorx")
+        ReadSqlEngine.put("connectorx")
+        print("ReadSqlEngine", ReadSqlEngine.get())
+
+    print(
+        f"partitions: {partitions}, engine: {engine} enable_cx: {enable_cx}, conn : {conn}"
+    )
 
     if engine == "Dask":
         from dask.distributed import Client, LocalCluster
-        cluster = LocalCluster(n_workers=partitions, scheduler_port=0, memory_limit="230G")
+
+        cluster = LocalCluster(
+            n_workers=partitions, scheduler_port=0, memory_limit="230G"
+        )
         client = Client(cluster)
     elif engine == "Ray":
         import ray
+
         ray.init(num_cpus=partitions)
 
     from modin.config import Engine, NPartitions
+
     NPartitions.put(partitions)
     Engine.put(engine)
 
@@ -50,7 +64,6 @@ if __name__ == "__main__":
                 "L_COMMITDATE",
                 "L_RECEIPTDATE",
             ],
-            enable_cx=enable_cx,
         )
     print(f"[Total] {timer.elapsed:.2f}s")
 
