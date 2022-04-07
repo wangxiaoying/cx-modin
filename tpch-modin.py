@@ -26,7 +26,7 @@ if __name__ == "__main__":
         from modin.config import ReadSqlEngine
 
         print("set engine to connectorx")
-        ReadSqlEngine.put("connectorx")
+        ReadSqlEngine.put("Connectorx")
         print("ReadSqlEngine", ReadSqlEngine.get())
 
     print(
